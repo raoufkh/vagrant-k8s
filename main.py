@@ -13,8 +13,8 @@ config_dict = yaml.load(config_file, Loader=SafeLoader)
 
 with open('Vagrantfile', 'r') as f :
     filedata = f.read()
-    newdata = filedata.replace('{{Provider}}', config_dict['provider'])
-    newdata = newdata.replace('{{WorkerCount}}', config_dict['topology']['workers_count'])
+    newdata = filedata.replace('{{Provider}}', str(config_dict['provider']))
+    newdata = newdata.replace('{{WorkerCount}}', str(config_dict['topology']['workers_count']))
     with open('Vagrantfile', 'w') as f:
         f.write(newdata1)
 
