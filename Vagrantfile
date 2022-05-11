@@ -2,7 +2,7 @@
 # vi: set ft=ruby :
 
 ENV['VAGRANT_NO_PARALLEL'] = 'yes'
-ENV['VAGRANT_DEFAULT_PROVIDER'] = 'libvirt'
+ENV['VAGRANT_DEFAULT_PROVIDER'] = '{{Provider}}'
 
 Vagrant.configure("2") do |config|
 
@@ -16,13 +16,13 @@ Vagrant.configure("2") do |config|
     master.vm.provision "shell", path: "prepare-nodes.sh", privileged: false
     master.vm.provision "shell", path: "install-helm.sh", privileged: false
     master.vm.provision "shell", path: "setup-master-node.sh", privileged: false
-    master.vm.provider "libvirt" do |lv|
-      lv.memory = 6000
-      lv.cpus= 5
+    master.vm.provider "{{Provider}}" do |p|
+      p.memory = 6000
+      p.cpus= 5
     end
   end
 
-  WorkerCount = 3
+  WorkerCount = {{WorkerCount}}
 
   (1..WorkerCount).each do |i|
     config.vm.define "worker#{i}" do |worker|
@@ -32,9 +32,9 @@ Vagrant.configure("2") do |config|
       worker.vm.provision "shell", path: "install-docker.sh", privileged: false
       worker.vm.provision "shell", path: "install-kubeadm-kubelet-kubectl.sh", privileged: false
       worker.vm.provision "shell", path: "prepare-nodes.sh", privileged: false
-      worker.vm.provider "libvirt" do |lv|
-        lv.memory = 9000
-        lv.cpus= 9
+      worker.vm.provider "{{Provider}}" do |p|
+        p.memory = 9000
+        p.cpus= 9
       end
     end  
   end
