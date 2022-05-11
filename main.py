@@ -16,7 +16,7 @@ with open('Vagrantfile', 'r') as f :
     newdata = filedata.replace('{{Provider}}', str(config_dict['provider']))
     newdata = newdata.replace('{{WorkerCount}}', str(config_dict['topology']['workers_count']))
     with open('Vagrantfile', 'w') as f:
-        f.write(newdata1)
+        f.write(newdata)
 
 os.system('sudo vagrant up')
     
