@@ -4,6 +4,6 @@ topology:
     master:
         memory: 2000  # in bytes
         cpu: 2
-    workers:
+    worker:
         memory: 2000  # in bytes
         cpu: 2
