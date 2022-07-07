@@ -2,9 +2,7 @@
 
 echo "Initialize the master node"
 sudo swapoff -a
-sudo kubeadm init --pod-network-cidr=10.244.0.0/16 --cri-socket=unix:///var/run/crio/crio.sock
-sudo kubeadm init --pod-network-cidr=10.244.0.0/16 --cri-socket=unix:///var/run/crio/crio.sock
-
+sudo kubeadm init --pod-network-cidr=10.244.0.0/16
 
 echo "Initialize the master node"
 mkdir -p $HOME/.kube
