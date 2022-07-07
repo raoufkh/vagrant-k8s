@@ -7,8 +7,7 @@ sudo ufw disable
 
 echo "Turn swapp off"
 sudo swapoff -a 
-sudo sed -i '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab
-sudo sed -i '/ swap / s/^/#/' /etc/fstab
+sudo sed -i  '/swap/ s/^/#/g' /etc/fstab
 
 echo "Set networking rules"
 cat <<EOF | sudo tee /etc/modules-load.d/k8s.conf
