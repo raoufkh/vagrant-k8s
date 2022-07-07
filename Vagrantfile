@@ -7,7 +7,7 @@ ENV['VAGRANT_DEFAULT_PROVIDER'] = '{{Provider}}'
 Vagrant.configure("2") do |config|
 
   config.vm.define "master" do |master|
-    master.vm.box = "generic/ubuntu1804"
+    master.vm.box = "generic/ubuntu2204"
     master.vm.hostname = "master"
     #master.vm.network "private_network", ip: "10.20.50.10"
     master.vm.provision "shell", path: "install-crio.sh", privileged: false
@@ -26,7 +26,7 @@ Vagrant.configure("2") do |config|
 
   (1..WorkerCount).each do |i|
     config.vm.define "worker#{i}" do |worker|
-      worker.vm.box = "generic/ubuntu1804"
+      worker.vm.box = "generic/ubuntu2204"
       worker.vm.hostname = "worker#{i}"
       #worker.vm.network "private_network", ip: "10.20.50.1#{i}"
       worker.vm.provision "shell", path: "install-crio.sh", privileged: false
