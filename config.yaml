@@ -2,8 +2,8 @@ provider: libvirt
 topology:
     workers_count: 2
     master:
-        memory: 4000  # in bytes
-        cpu: 4
+        memory: 2000  # in bytes
+        cpu: 2
     workers:
-        memory: 5000  # in bytes
-        cpu: 5
+        memory: 2000  # in bytes
+        cpu: 2

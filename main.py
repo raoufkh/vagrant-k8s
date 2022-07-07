@@ -2,6 +2,7 @@ import argparse
 import os
 import yaml
 from yaml.loader import SafeLoader
+from time import sleep
 
 parser = argparse.ArgumentParser()
 parser.add_argument("-c", "--config", help="The path to the config file", default='config.yaml')
@@ -12,17 +13,28 @@ config_file = open(file_name, encoding='utf8', errors='ignore')
 config_dict = yaml.load(config_file, Loader=SafeLoader)
 
 with open('Vagrantfile', 'r') as f :
+    provider = config_dict['provider']
     workers_count = config_dict['topology']['workers_count']
+    master_memory = config_dict['topology']['master']['memory']
+    master_cpu = config_dict['topology']['master']['cpu']
+    worker_memory = config_dict['topology']['worker']['memory']
+    worker_cpu = config_dict['topology']['worker']['cpu']
     filedata = f.read()
-    newdata = filedata.replace('{{Provider}}', str(config_dict['provider']))
+    newdata = filedata.replace('{{Provider}}', str(provider))
     newdata = newdata.replace('{{WorkerCount}}', str(workers_count))
+    newdata = newdata.replace('{{MasterMemory}}', str(workers_count))
+    newdata = newdata.replace('{{MasterCPU}}', str(workers_count))
+    newdata = newdata.replace('{{WorkerMemory}}', str(workers_count))
+    newdata = newdata.replace('{{WorkerCPU}}', str(workers_count))
     with open('Vagrantfile', 'w') as f:
         f.write(newdata)
 
 # Vagrant up
 os.system('sudo vagrant up')
+print('Vagrant up finished')
+sleep(3)
 
-# Get the joint command on the master
+# Get the join command on the master
 command = 'sudo vagrant ssh master -c \'sudo kubeadm token create --print-join-command\''
 output = os.popen(command)
 output_txt = output.read()

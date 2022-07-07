@@ -10,15 +10,15 @@ Vagrant.configure("2") do |config|
     master.vm.box = "generic/ubuntu1804"
     master.vm.hostname = "master"
     #master.vm.network "private_network", ip: "10.20.50.10"
-    master.vm.provision "shell", path: "install-docker.sh", privileged: false
+    master.vm.provision "shell", path: "install-crio.sh", privileged: false
     master.vm.provision "shell", path: "install-helm.sh", privileged: false
     master.vm.provision "shell", path: "install-kubeadm-kubelet-kubectl.sh", privileged: false
     master.vm.provision "shell", path: "prepare-nodes.sh", privileged: false
     master.vm.provision "shell", path: "install-helm.sh", privileged: false
     master.vm.provision "shell", path: "setup-master-node.sh", privileged: false
     master.vm.provider "{{Provider}}" do |p|
-      p.memory = 6000
-      p.cpus= 5
+      p.memory = {{MasterMemory}}
+      p.cpus= {{MasterCPU}}
     end
   end
 
@@ -29,12 +29,13 @@ Vagrant.configure("2") do |config|
       worker.vm.box = "generic/ubuntu1804"
       worker.vm.hostname = "worker#{i}"
       #worker.vm.network "private_network", ip: "10.20.50.1#{i}"
-      worker.vm.provision "shell", path: "install-docker.sh", privileged: false
+      worker.vm.provision "shell", path: "install-crio.sh", privileged: false
+      worker.vm.provision "shell", path: "install-helm.sh", privileged: false
       worker.vm.provision "shell", path: "install-kubeadm-kubelet-kubectl.sh", privileged: false
       worker.vm.provision "shell", path: "prepare-nodes.sh", privileged: false
       worker.vm.provider "{{Provider}}" do |p|
-        p.memory = 9000
-        p.cpus= 9
+        p.memory = {{WorkerMemory}}
+        p.cpus= {{WorkerCPU}}
       end
     end  
   end
