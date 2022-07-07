@@ -22,10 +22,10 @@ with open('Vagrantfile', 'r') as f :
     filedata = f.read()
     newdata = filedata.replace('{{Provider}}', str(provider))
     newdata = newdata.replace('{{WorkerCount}}', str(workers_count))
-    newdata = newdata.replace('{{MasterMemory}}', str(workers_count))
-    newdata = newdata.replace('{{MasterCPU}}', str(workers_count))
-    newdata = newdata.replace('{{WorkerMemory}}', str(workers_count))
-    newdata = newdata.replace('{{WorkerCPU}}', str(workers_count))
+    newdata = newdata.replace('{{MasterMemory}}', str(master_memory))
+    newdata = newdata.replace('{{MasterCPU}}', str(master_cpu))
+    newdata = newdata.replace('{{WorkerMemory}}', str(worker_memory))
+    newdata = newdata.replace('{{WorkerCPU}}', str(worker_cpu))
     with open('Vagrantfile', 'w') as f:
         f.write(newdata)
 
