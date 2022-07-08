@@ -40,15 +40,20 @@ sleep(3)
 #sleep(3)
 
 # Get the join command on the master
-command = 'sudo vagrant ssh master -c \'sudo kubeadm token create --print-join-command\''
+output_txt = ""
+command = "sudo vagrant ssh master -c 'sudo kubeadm token create --print-join-command'"
 output = os.popen(command)
+sleep(10)
 output_txt = output.read()
-output_txt = 'sudo ' + output_txt
+output_txt = "sudo " + output_txt
 
 # Run the join command on workers
 for i in range(1, workers_count+1):
-    join_command = 'sudo vagrant ssh worker' + str(i) + ' -c \'' + output_txt + '\''
-    os.system(command)
-
+    print("Joining worker"+str(i))
+    joint_output_txt = ""
+    join_command = "sudo vagrant ssh worker" + str(i) + " -c '" + output_txt + "'"
+    joint_output = os.popen(join_command)
+    joint_output_txt = joint_output.read()
+    print(joint_output_txt)
     
     
