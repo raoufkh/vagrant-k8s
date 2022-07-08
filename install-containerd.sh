@@ -31,6 +31,11 @@ sudo systemctl restart containerd
 echo "Configure containerd to run at startup"
 sudo systemctl enable containerd
 
+echo "Sleep waiting for containerd to be up (precaution)"
+sleep 15
+
+
+
 
 
 
