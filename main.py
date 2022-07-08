@@ -35,9 +35,9 @@ print('Vagrant up finished')
 sleep(3)
 
 # Reload the master
-os.system('sudo vagrant reload master')
-print('Master reloaded')
-sleep(3)
+#os.system('sudo vagrant reload master')
+#print('Master reloaded')
+#sleep(3)
 
 # Get the join command on the master
 command = 'sudo vagrant ssh master -c \'sudo kubeadm token create --print-join-command\''
