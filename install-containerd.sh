@@ -23,6 +23,11 @@ containerd --version
 
 echo "Configure containerd"
 sudo bash -c "containerd config default > /etc/containerd/config.toml"
+sudo sed -i 's/SystemdCgroup \= false/SystemdCgroup \= true/g' /etc/containerd/config.toml
+cat <<EOF | sudo tee -a /etc/containerd/config.toml
+[plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc]
+[plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc.options]
+EOF
 
 echo "Restart containerd"
 sudo systemctl restart containerd
