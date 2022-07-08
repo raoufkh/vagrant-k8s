@@ -1,6 +1,12 @@
 # vagrant-k8s
 
-## Install vagrant reload plugin (if not already installed)
+## Install vagrant
+```
+sudo apt update
+sudo apt install vagrant
+```
+
+## Install vagrant reload plugin
 ```
 vagrant plugin install vagrant-reload
 ```
