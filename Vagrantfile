@@ -30,6 +30,7 @@ Vagrant.configure("2") do |config|
       worker.vm.box = "generic/ubuntu2110"
       worker.vm.hostname = "worker#{i}"
       worker.vm.network "private_network", ip: "10.100.100.3#{i}"
+      worker.vm.network "private_network", type: "dhcp"
       worker.vm.provision "shell", path: "install-containerd.sh", privileged: false
       worker.vm.provision "shell", path: "install-kubeadm-kubelet-kubectl.sh", privileged: false
       worker.vm.provision "shell", path: "install-helm.sh", privileged: false
