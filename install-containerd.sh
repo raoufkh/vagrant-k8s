@@ -2,7 +2,6 @@
 
 echo "Setup Containerd"
 
-
 echo "Install Dependencies"
 sudo apt-get update
 sudo apt-get -y install \
