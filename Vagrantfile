@@ -16,6 +16,7 @@ Vagrant.configure("2") do |config|
     master.vm.provision "shell", path: "prepare-nodes.sh", privileged: false
     master.vm.provision :reload
     master.vm.provision "shell", path: "setup-master-node.sh", privileged: false
+    master.vm.provision :reload
     master.vm.provider "{{Provider}}" do |p|
       p.memory = {{MasterMemory}}
       p.cpus= {{MasterCPU}}
