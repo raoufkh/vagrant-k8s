@@ -1,33 +1,23 @@
-import argparse
 import os
 import yaml
 from yaml.loader import SafeLoader
 from time import sleep
 
-parser = argparse.ArgumentParser()
-parser.add_argument("-c", "--config", help="The path to the config file", default='config.yaml')
-args = parser.parse_args()
-
-file_name = args.config
+file_name = 'config.yaml'
 config_file = open(file_name, encoding='utf8', errors='ignore')
 config_dict = yaml.load(config_file, Loader=SafeLoader)
 
-with open('Vagrantfile', 'r') as f :
-    provider = config_dict['provider']
-    workers_count = config_dict['topology']['workers_count']
-    master_memory = config_dict['topology']['master']['memory']
-    master_cpu = config_dict['topology']['master']['cpu']
-    worker_memory = config_dict['topology']['worker']['memory']
-    worker_cpu = config_dict['topology']['worker']['cpu']
-    filedata = f.read()
-    newdata = filedata.replace('{{Provider}}', str(provider))
-    newdata = newdata.replace('{{WorkerCount}}', str(workers_count))
-    newdata = newdata.replace('{{MasterMemory}}', str(master_memory))
-    newdata = newdata.replace('{{MasterCPU}}', str(master_cpu))
-    newdata = newdata.replace('{{WorkerMemory}}', str(worker_memory))
-    newdata = newdata.replace('{{WorkerCPU}}', str(worker_cpu))
-    with open('Vagrantfile', 'w') as f:
-        f.write(newdata)
+master_init_name = None
+workers_list = []
+for machine in config_dict['machines']:
+    if machine['role'] == 'master-init':
+        master_init_name = machine['name']
+    elif machine['role'] == 'worker':
+        workers_list.append(machine['name'])
+    
+if not master_init_name:
+    print('No node with master-init role found')
+    exit()
 
 # Vagrant up
 os.system('sudo vagrant up')
@@ -42,7 +32,7 @@ sleep(3)
 # Get the join command on the master
 print("Getting the join command")
 output_txt = ""
-command = "sudo vagrant ssh master -c 'sudo kubeadm token create --print-join-command'"
+command = f"sudo vagrant ssh {master_init_name} -c 'sudo kubeadm token create --print-join-command'"
 output = os.popen(command)
 sleep(10)
 output_txt = output.read()
@@ -51,9 +41,10 @@ print(output_txt)
 
 # Run the join command on workers
 for i in range(1, workers_count+1):
-    print("Joining worker"+str(i))
+for woker_name in workers_list:
+    print(f"Joining {woker_name}")
     joint_output_txt = ""
-    join_command = "sudo vagrant ssh worker" + str(i) + " -c '" + output_txt + "'"
+    join_command = f"sudo vagrant ssh {woker_name} -c '" + output_txt + "'"
     joint_output = os.popen(join_command)
     joint_output_txt = joint_output.read()
     print(joint_output_txt)

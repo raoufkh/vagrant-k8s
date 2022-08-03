@@ -1,9 +1,19 @@
 provider: libvirt
-topology:
-    workers_count: 2
-    master:
+machines:
+    -   role: master-init
+        name: master1
+        box: generic/ubuntu2010
         memory: 3000  # in bytes
         cpu: 3
-    worker:
+    -   role: worker
+        name: worker1
+        box: generic/ubuntu2010
         memory: 4000  # in bytes
         cpu: 4
+        #ip: 10.100.100.31
+    -   role: worker
+        name: worker2
+        box: generic/ubuntu2010
+        memory: 4000  # in bytes
+        cpu: 4
+        #ip: 10.100.100.32
