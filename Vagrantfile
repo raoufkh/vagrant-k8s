@@ -33,6 +33,7 @@ Vagrant.configure("2") do |config|
         when "worker"
           node.vm.network "private_network", type: "dhcp"
       end
+    end
   end
 
 end
