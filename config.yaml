@@ -1,10 +1,11 @@
 provider: libvirt
 machines:
-    -   role: master-init
+    -   role: master
         name: master1
         box: generic/ubuntu2010
         memory: 3000  # in bytes
         cpu: 3
+        ip: 10.100.100.30
     -   role: worker
         name: worker1
         box: generic/ubuntu2010
