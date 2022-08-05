@@ -24,14 +24,7 @@ Vagrant.configure("2") do |config|
       guest.vm.provision "shell", path: "prepare-nodes.sh", privileged: false
       guest.vm.provision :reload
       # The following depend on the node role
-      case machine['role']
-        when "master"
-          guest.vm.provision "shell", path: "setup-master-node.sh", privileged: false
-          guest.vm.provision "shell", path: "install-addons.sh", privileged: false
-          guest.vm.network "private_network", ip: machine['ip']
-        when "worker"
-          guest.vm.network "private_network", type: "dhcp"
-      end
+      
   end
 
 end
