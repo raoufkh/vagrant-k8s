@@ -36,7 +36,7 @@ Vagrant.configure("2") do |config|
           master_name = machine['name']
           get_token_command = "sudo vagrant ssh " + master_name + " -c 'sudo kubeadm token create --print-join-command'"
           output = IO.popen(get_token_command)
-          join_command = "sudo " + r.read
+          join_command = "sudo " + output.read
         when "worker"
           #node.vm.network "private_network", type: "dhcp"
           node.vm.network "private_network", ip: machine['ip']          
