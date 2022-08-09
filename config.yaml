@@ -11,10 +11,10 @@ machines:
         box: generic/ubuntu2010
         memory: 4000  # in bytes
         cpu: 4
-        #ip: 10.100.100.31
+        ip: 10.100.100.31
     -   role: worker
         name: worker2
         box: generic/ubuntu2010
         memory: 4000  # in bytes
         cpu: 4
-        #ip: 10.100.100.32
+        ip: 10.100.100.32
