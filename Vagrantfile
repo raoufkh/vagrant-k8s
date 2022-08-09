@@ -41,9 +41,10 @@ Vagrant.configure("2") do |config|
           #node.vm.network "private_network", type: "dhcp"
           node.vm.network "private_network", ip: machine['ip']          
           # Join the worker to the cluster
-          woker_name = machine['name']
-          worker_join_command = "sudo vagrant ssh " + woker_name + " -c '" + join_command + "'"
-          system(worker_join_command)
+          node.vm.provision "shell", inline: join_command, privileged: false
+          #woker_name = machine['name']
+          #worker_join_command = "sudo vagrant ssh " + woker_name + " -c '" + join_command + "'"
+          #system(worker_join_command)
       end
     end
   end
