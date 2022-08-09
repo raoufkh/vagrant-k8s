@@ -33,10 +33,12 @@ Vagrant.configure("2") do |config|
           node.vm.provision "shell", path: "install-addons.sh", privileged: false
           node.vm.network "private_network", ip: machine['ip']
           # Get the join_command
-          master_name = machine['name']
-          get_token_command = "sudo vagrant ssh " + master_name + " -c 'sudo kubeadm token create --print-join-command'"
-          output = IO.popen(get_token_command)
-          join_command = "sudo " + output.read
+          node.trigger.after :up do |trigger|
+            master_name = machine['name']
+            get_token_command = "sudo vagrant ssh " + master_name + " -c 'sudo kubeadm token create --print-join-command'"          
+            output = IO.popen(get_token_command)
+            join_command = "sudo " + output.read
+          end
         when "worker"
           #node.vm.network "private_network", type: "dhcp"
           node.vm.network "private_network", ip: machine['ip']          
