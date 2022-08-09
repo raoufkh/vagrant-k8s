@@ -35,15 +35,16 @@ Vagrant.configure("2") do |config|
           # Get the join_command
           node.trigger.after :up do |trigger|
             master_name = machine['name']
-            get_token_command = "sudo vagrant ssh " + master_name + " -c 'sudo kubeadm token create --print-join-command'"          
-            output = IO.popen(get_token_command)
-            join_command = "sudo " + output.read
+            puts master_name
+            #get_token_command = "sudo vagrant ssh " + master_name + " -c 'sudo kubeadm token create --print-join-command'"          
+            #output = IO.popen(get_token_command)
+            #join_command = "sudo " + output.read
           end
         when "worker"
           #node.vm.network "private_network", type: "dhcp"
           node.vm.network "private_network", ip: machine['ip']          
           # Join the worker to the cluster
-          node.vm.provision "shell", inline: join_command, privileged: false
+          #ode.vm.provision "shell", inline: join_command, privileged: false
           #woker_name = machine['name']
           #worker_join_command = "sudo vagrant ssh " + woker_name + " -c '" + join_command + "'"
           #system(worker_join_command)
