@@ -25,7 +25,7 @@ Vagrant.configure("2") do |config|
       node.vm.provision "shell", path: "install-kubeadm-kubelet-kubectl.sh", privileged: false
       node.vm.provision "shell", path: "install-helm.sh", privileged: false
       node.vm.provision "shell", path: "prepare-nodes.sh", privileged: false
-      node.vm.provision :reload
+      #node.vm.provision :reload
       # The following depend on the node role
       case machine['role']
         when "master"
