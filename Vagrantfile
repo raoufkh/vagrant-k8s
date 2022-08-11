@@ -40,7 +40,7 @@ Vagrant.configure("2") do |config|
             trigger.ruby do |env,machine|
               get_token_command = "sudo vagrant ssh " + master_name + " -c 'sudo kubeadm token create --print-join-command'"          
               output = IO.popen(get_token_command)
-              join_command = "sudo " + output.read
+              join_command = output.read
               puts join_command
             end
           end
@@ -51,8 +51,10 @@ Vagrant.configure("2") do |config|
           # Join the worker to the cluster
           node.trigger.after :up do |trigger|
             trigger.info = "Join #{worker_name}"
-            puts join_command
-            trigger.run_remote = {inline: "#{join_command}", privileged: false}
+            trigger.ruby do |env,machine|
+              puts join_command
+            done
+            trigger.run_remote = {inline: "#{join_command}"}
           end
       end
     end
