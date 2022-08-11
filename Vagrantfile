@@ -49,7 +49,7 @@ Vagrant.configure("2") do |config|
           #node.vm.network "private_network", type: "dhcp"
           node.vm.network "private_network", ip: m['ip']
           # Join the worker to the cluster
-          node.vm.provision "shell", inline: join_command, privileged: false
+          node.vm.provision "shell", inline: "#{join_command}", privileged: false
       end
     end
   end
