@@ -53,7 +53,7 @@ Vagrant.configure("2") do |config|
             trigger.info = "Join #{worker_name}"
             trigger.ruby do |env,machine|
               puts join_command
-            done
+            end
             trigger.run_remote = {inline: "#{join_command}"}
           end
       end
