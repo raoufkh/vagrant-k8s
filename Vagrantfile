@@ -43,13 +43,17 @@ Vagrant.configure("2") do |config|
               join_command = "sudo " + output.read
               puts join_command
             end
-            
           end
         when "worker"
+          worker_name = m['name']
           #node.vm.network "private_network", type: "dhcp"
           node.vm.network "private_network", ip: m['ip']
           # Join the worker to the cluster
-          node.vm.provision "shell", inline: "#{join_command}", privileged: false
+          node.trigger.after :up do |trigger|
+            trigger.info = "Join #{worker_name}"
+            puts join_command
+            trigger.run_remote = {inline: "#{join_command}" privileged: false}
+          end
       end
     end
   end
