@@ -53,7 +53,7 @@ Vagrant.configure("2") do |config|
             trigger.info = "Join #{worker_name}"
             trigger.ruby do |env,machine|
               puts join_command
-              worker_join_command = "sudo vagrant ssh #{worker_name} -c '#{worker_name}'"
+              worker_join_command = "sudo vagrant ssh #{worker_name} -c '#{join_command}'"
               system(worker_join_command)
             end
             #trigger.run_remote = {inline: "#{join_command}"}
