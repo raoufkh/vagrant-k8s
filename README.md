@@ -17,15 +17,22 @@ Put your custom values in the config file fields:
 | Parameter | Description | Default value |
 | --- | --- | --- |
 | `provider` | Vagrant provider name. | `libvirt` |
-| `topology.workers_count` | Number of k8s workers. | `2` |
-| `topology.master.memory` | Memory allocated to the master in bytes. | `2000` |
-| `topology.master.cpu` | CPU allocated to the master. | `2` |
-| `topology.worker.memory` | Memory allocated to each worker in bytes. | `2000` |
-| `topology.worker.cpu` | CPU allocated to each worker. | `2` |
+| `machines` | A list of [machine](#machine)s Kubernetes nodes. | `see [config.yaml](./config.yaml)` |
 
-## Run the script
+### machine
+Each machine element corresponds to a Kubernetes node and consists of:
+| Parameter | Description |
+| --- | --- |
+| `role` | The role of this node (possible values are master or worker). |
+| `name` | The name of this node. |
+| `box` | The Vagrant box to be used (e.g. generic/ubuntu2010). |
+| `memory` | Amount of memory to be assigned to this node (in bytes). |
+| `cpu` | Number of CPUs to be assigned to this node. |
+| `ip` | IP address to an eth1 interface be on this node. |
+
+## Create the cluster
 ```
-python main.py -c config.yaml
+sudo vagrant up
 ```
 
 ## Check the status of created VMS
@@ -34,7 +41,7 @@ sudo vagrant status
 ```
 
 ## Check that the k8s cluster was created
-Finally, you can access the k8s master using the command `sudo vagrant ssh master`, and then run:
+Access the k8s master using the command `sudo vagrant ssh master`, and then run:
 ```
 kubectl get nodes
 ```
