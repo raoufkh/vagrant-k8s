@@ -11,7 +11,7 @@ sudo apt install vagrant
 vagrant plugin install vagrant-reload
 ```
 
-## Prepare the config file
+## Configuration
 Put your custom values in the config file fields:
 
 | Parameter | Description | Default value |
@@ -41,7 +41,6 @@ sudo vagrant status
 ```
 
 ## Check that the k8s cluster was created
-Access the k8s master using the command `sudo vagrant ssh master`, and then run:
 ```
-kubectl get nodes
+sudo vagrant ssh master -c 'kubectl get nodes'
 ```
