@@ -9,6 +9,7 @@ ENV['VAGRANT_NO_PARALLEL'] = 'yes'
 ENV['VAGRANT_DEFAULT_PROVIDER'] = configuration['provider']
 
 join_command = nil
+master_name= nil
 
 Vagrant.configure("2") do |config|
 
@@ -42,21 +43,6 @@ Vagrant.configure("2") do |config|
 
 end
 
-### Join nodes
-# Get the join_command            
-get_token_command = "sudo vagrant ssh " + master_name + " -c 'sudo kubeadm token create --print-join-command'"          
-output = IO.popen(get_token_command)
-join_command = "sudo " + output.read
-# Join worker nodes
-machines.each do |machine|
-  case machine['role']
-    when "worker"
-      # Join the worker to the cluster
-      #node.vm.provision "shell", inline: join_command, privileged: false
-      woker_name = machine['name']
-      worker_join_command = "sudo vagrant ssh " + woker_name + " -c '" + join_command + "'"
-      system(worker_join_command)
-  end
-end
+puts master_name
 
 
