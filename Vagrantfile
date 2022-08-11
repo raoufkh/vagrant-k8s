@@ -52,7 +52,7 @@ Vagrant.configure("2") do |config|
           node.trigger.after :up do |trigger|
             trigger.info = "Join #{worker_name}"
             puts join_command
-            trigger.run_remote = {inline: "#{join_command}" privileged: false}
+            trigger.run_remote = {inline: "#{join_command}", privileged: false}
           end
       end
     end
