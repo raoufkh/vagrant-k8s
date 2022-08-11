@@ -34,19 +34,22 @@ Vagrant.configure("2") do |config|
           node.vm.provision "shell", path: "setup-master-node.sh", privileged: false
           node.vm.provision "shell", path: "install-addons.sh", privileged: false
           node.vm.network "private_network", ip: m['ip']
+          # Get the join_command
           node.trigger.after :up do |trigger|
             trigger.info = "Get the join command"
             trigger.ruby do |env,machine|
-              master_name = m['name']
-              puts master_name
+              get_token_command = "sudo vagrant ssh " + master_name + " -c 'sudo kubeadm token create --print-join-command'"          
+              output = IO.popen(get_token_command)
+              join_command = "sudo " + output.read
+              puts join_command
             end
-            #get_token_command = "sudo vagrant ssh " + master_name + " -c 'sudo kubeadm token create --print-join-command'"          
-            #output = IO.popen(get_token_command)
-            #join_command = "sudo " + output.read
+            
           end
         when "worker"
           #node.vm.network "private_network", type: "dhcp"
-          node.vm.network "private_network", ip: m['ip']          
+          node.vm.network "private_network", ip: m['ip']
+          # Join the worker to the cluster
+          node.vm.provision "shell", inline: join_command, privileged: false
       end
     end
   end
