@@ -1,20 +1,20 @@
 provider: libvirt
 machines:
     -   role: master
-        name: master
-        box: generic/ubuntu2010
-        memory: 3000  # in bytes
-        cpu: 3
-        ip: 10.100.100.30
+        name: journal-master
+        box: generic/ubuntu2204
+        memory: 9000  # in bytes
+        cpu: 9
+        ip: 10.100.100.40
     -   role: worker
-        name: worker1
-        box: generic/ubuntu2010
-        memory: 4000  # in bytes
-        cpu: 4
-        ip: 10.100.100.31
+        name: journal-worker1
+        box: generic/ubuntu2204
+        memory: 30000  # in bytes
+        cpu: 30
+        ip: 10.100.100.41
     -   role: worker
-        name: worker2
-        box: generic/ubuntu2010
-        memory: 4000  # in bytes
-        cpu: 4
-        ip: 10.100.100.32
+        name: journal-worker2
+        box: generic/ubuntu2204
+        memory: 20000  # in bytes
+        cpu: 30
+        ip: 10.100.100.42
