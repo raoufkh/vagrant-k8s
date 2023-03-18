@@ -47,7 +47,7 @@ Vagrant.configure("2") do |config|
           end
         when "worker"
           worker_name = m['name']
-          node.vm.provision "shell", path: "cd ~ && mkdir kubedata", privileged: false
+          node.vm.provision "shell", inline: "cd ~ && mkdir kubedata", privileged: false
           #node.vm.network "private_network", type: "dhcp"
           node.vm.network "private_network", ip: m['ip']
           # Join the worker to the cluster
