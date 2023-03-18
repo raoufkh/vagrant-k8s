@@ -38,7 +38,7 @@ Vagrant.configure("2") do |config|
           node.trigger.after :up do |trigger|
             trigger.info = "Get the join command"
             trigger.ruby do |env,machine|
-              get_token_command = "vagrant ssh " + master_name + " -c 'sudo kubeadm token create --print-join-command'"          
+              get_token_command = "vagrant ssh " + master_name + " -c 'sudo kubeadm token create --print-join-command'"
               output = IO.popen(get_token_command)
               join_command = "sudo #{output.read}"
               join_command = join_command.strip
@@ -47,6 +47,7 @@ Vagrant.configure("2") do |config|
           end
         when "worker"
           worker_name = m['name']
+          node.vm.provision "shell", path: "cd ~ && mkdir kubedata", privileged: false
           #node.vm.network "private_network", type: "dhcp"
           node.vm.network "private_network", ip: m['ip']
           # Join the worker to the cluster
@@ -60,8 +61,11 @@ Vagrant.configure("2") do |config|
             #trigger.run_remote = {inline: "#{join_command}"}
           end
       end
+      case m['name']
+        when "journal-worker2"
+          node.vm.provision "shell", path: "clone-projects.sh", privileged: false
+          node.vm.provision "shell", path: "compile-ueransim.sh", privileged: false
+      end
     end
   end
-
 end
-
