@@ -63,7 +63,7 @@ Vagrant.configure("2") do |config|
       end
       case m['name']
         when "journal-worker2"
-          node.vm.provision "shell", path: "clone-projects.sh", privileged: false
+          #node.vm.provision "shell", path: "clone-projects.sh", privileged: false
           node.vm.provision "shell", path: "compile-ueransim.sh", privileged: false
       end
     end
