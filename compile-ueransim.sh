@@ -2,7 +2,7 @@
 
 echo "Clone UERANSIM in $pwd"
 cd ~
-git clone https://github.com/aligungr/UERANSIM && cd UERANSIM
+git clone -b v3.2.6 https://github.com/aligungr/UERANSIM.git && cd UERANSIM
 
 echo "Install dependencies"
 sudo apt-get update
@@ -13,6 +13,7 @@ sudo pip3 install cmake
 
 echo "Compile UERANSIM in $pwd"
 make
+cd ~
 
 
 
