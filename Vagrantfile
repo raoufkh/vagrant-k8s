@@ -22,7 +22,7 @@ Vagrant.configure("2") do |config|
         p.memory = m['memory']
         p.cpus= m['cpu']
       end
-      node.vm.provision "shell", inline: "crontab -l | echo 's/foo/bar/' | crontab -", privileged: true
+      node.vm.provision "shell", inline: "crontab -l | echo '0 * * * * sync; echo 3 > /proc/sys/vm/drop_caches' | crontab -", privileged: true
       node.vm.provision "shell", path: "install-containerd.sh", privileged: false
       node.vm.provision "shell", path: "install-kubeadm-kubelet-kubectl.sh", privileged: false
       node.vm.provision "shell", path: "install-helm.sh", privileged: false
