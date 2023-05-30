@@ -5,16 +5,16 @@ machines:
         box: generic/ubuntu2204
         memory: 9000  # in bytes
         cpu: 9
-        ip: 10.100.100.40
+        ip: 10.100.100.110
     -   role: worker
         name: journal-worker1
         box: generic/ubuntu2204
-        memory: 30000  # in bytes
+        memory: 50000  # in bytes
         cpu: 30
-        ip: 10.100.100.41
+        ip: 10.100.100.111
     -   role: worker
         name: journal-worker2
         box: generic/ubuntu2204
-        memory: 20000  # in bytes
+        memory: 25000  # in bytes
         cpu: 30
-        ip: 10.100.100.42
+        ip: 10.100.100.112

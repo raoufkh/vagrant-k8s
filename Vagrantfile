@@ -22,6 +22,7 @@ Vagrant.configure("2") do |config|
         p.memory = m['memory']
         p.cpus= m['cpu']
       end
+      node.vm.provision "shell", inline: "crontab -l | echo 's/foo/bar/' | crontab -", privileged: true
       node.vm.provision "shell", path: "install-containerd.sh", privileged: false
       node.vm.provision "shell", path: "install-kubeadm-kubelet-kubectl.sh", privileged: false
       node.vm.provision "shell", path: "install-helm.sh", privileged: false
@@ -47,7 +48,7 @@ Vagrant.configure("2") do |config|
           end
         when "worker"
           worker_name = m['name']
-          node.vm.provision "shell", inline: "cd ~ && mkdir kubedata", privileged: false
+          node.vm.provision "shell", inline: "cd ~ && mkdir kubedata && mkdir prometheus_data", privileged: false
           #node.vm.network "private_network", type: "dhcp"
           node.vm.network "private_network", ip: m['ip']
           # Join the worker to the cluster
@@ -60,10 +61,9 @@ Vagrant.configure("2") do |config|
             end
             #trigger.run_remote = {inline: "#{join_command}"}
           end
-      end
-      case m['name']
-        when "journal-worker2"
-          #node.vm.provision "shell", path: "clone-projects.sh", privileged: false
+        when "client"
+          client_name = m['name']
+          node.vm.network "private_network", ip: m['ip']
           node.vm.provision "shell", path: "compile-ueransim.sh", privileged: false
       end
     end
